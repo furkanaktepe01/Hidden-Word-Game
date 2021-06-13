@@ -412,8 +412,7 @@ public class Player {
                 }
             }
         } else {
-            //hiddenWord = Level.genRandomWord();
-            hiddenWord = "mehmet";
+            hiddenWord = Level.genRandomWord();
         }
 
 
