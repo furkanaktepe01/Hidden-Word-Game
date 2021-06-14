@@ -467,7 +467,7 @@ public class Player {
         return sizeTable;
     }
 
-    public static ArrayList<Double> acceptBets(Scanner scanner, Player Player1, Player Player2) {
+    public static ArrayList<Double> acceptBets(Scanner scanner, Player Player1, Player Player2, int round_num) {
 
         double P1Bet = Player1.budget + 1;
         double P2Bet = Player2.budget + 1;
@@ -478,7 +478,11 @@ public class Player {
             scanner.nextLine();
             if (P1Bet >= Player1.budget) {
                 if (P1Bet == Player1.budget) {
-                    System.out.println("You cannot bet your whole money until the Final Round.");
+                   if(round_num == 1 || round_num == 2) {
+                        System.out.println("You cannot bet your whole money until the Final Round.");
+                    } else {
+                        break;
+                    }
                 } else {
                     System.out.println("Your bet cannot exceed your budget.");
                 }
@@ -495,7 +499,11 @@ public class Player {
             scanner.nextLine();
             if (P2Bet >= Player2.budget) {
                 if (P2Bet == Player2.budget) {
-                    System.out.println("You cannot bet your whole money until the Final Round.");
+                    if(round_num == 1 || round_num == 2) {
+                        System.out.println("You cannot bet your whole money until the Final Round.");
+                    } else {
+                        break;
+                    }
                 } else {
                     System.out.println("Your bet cannot exceed your budget.");
                 }
