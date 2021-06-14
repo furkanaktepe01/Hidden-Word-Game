@@ -32,10 +32,9 @@ public class Player {
             Player1.guessNum++;
 
             double P1HWProfit = (Round.HW_profit_percentage / 100.0) * P2Bet;
-            double Casinos_profit = P2Bet - P1HWProfit;
-            Casino.budget = Casino.budget + Casinos_profit;
-            Player2.budget = Player2.budget - P2Bet;
-            Player1.budget = Player1.budget + P1HWProfit;
+            Casino.budget = Casino.budget - P1HWProfit - P1Bet;
+            Player1.budget = Player1.budget + P1HWProfit + P1Bet;
+
             Player1wins = true;
             System.out.println("\n" + Player1.name + " won the Round " + round_num + " !\n" +
                     "Hidden word was: " + hiddenWord + "\n" +
@@ -172,10 +171,9 @@ public class Player {
         if (Player1.guessNum == Round.guessChance && !Player1wins) {
 
             double P2HWProfit = (Round.HW_profit_percentage / 100.0) * P1Bet;
-            double Casinos_profit = P1Bet - P2HWProfit;
-            Casino.budget = Casino.budget + Casinos_profit;
-            Player1.budget = Player1.budget - P1Bet;
-            Player2.budget = Player2.budget + P2HWProfit;
+            Casino.budget = Casino.budget - P2HWProfit - P2Bet;
+            Player1.budget = Player1.budget + P2HWProfit + P2Bet;
+
             System.out.println("\n" + Player1.name + " has no more chance to guess, so lost the Round " + round_num + " and the whole bet.\n" +
                     Player2.name + " gained " + (int) Round.HW_profit_percentage + "% of " + Player1.name + "'s bet, which is " + (float) P2HWProfit);
             System.out.println("\nTotal Budget of " + Player1.name + ": " + (float) Player1.budget + "$");
@@ -210,8 +208,8 @@ public class Player {
 
             Player1.guessNum++;
 
-            Player2.budget = Player2.budget - B2;
-            Player1.budget = Player1.budget + B2;
+            Casino.budget = Casino.budget - B2 - B1;
+            Player1.budget = Player1.budget + B2 + B1;
             Player1wins = true;
             System.out.println("\n" + Player1.name + " won the Round " + round_num + " !\n" +
                     "Hidden word was: " + hiddenWord + "\n" +
@@ -347,9 +345,6 @@ public class Player {
 
         if (Player1.guessNum == Round.guessChance && !Player1wins) {
 
-            Player1.budget = Player1.budget - B1;
-            Player2.budget = Player2.budget - B2;
-            Casino.budget = Casino.budget + B1 + B2;
             System.out.println("\nBoth " + Player1.name + " and " + Player2.name + " lost the Final Round !\n" +
                     "Casino takes the bets of both players.\n");
         }
@@ -438,7 +433,7 @@ public class Player {
                     System.out.println("Hidden word cannot be empty space.");
                 } else if (hiddenWord.length() == 1) {
                     System.out.println("Hidden word cannot be a single letter.");
-                } else {
+                } else if (hiddenWord.length() > 50) {
                     System.out.println("Hidden word cannot be longer than 50 letters.");
                 }
 

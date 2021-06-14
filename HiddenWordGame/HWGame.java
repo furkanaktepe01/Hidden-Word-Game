@@ -35,6 +35,9 @@ public class HWGame {
             double P1Bet = Bets.get(0);
             double P2Bet = Bets.get(1);
 
+            Player1.budget = Player1.budget - P1Bet;
+            Player2.budget = Player2.budget - P2Bet;
+            Casino.budget = Casino.budget + P1Bet + P2Bet;
 
             ArrayList<String> hiddenWordCopy = Level.copyLettersAsArray(hiddenWord);
             ArrayList<String> typedWords = new ArrayList<>();
