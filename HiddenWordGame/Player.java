@@ -19,9 +19,10 @@ public class Player {
         this.initialBudget = initialBudget;
         this.displayedTip = "";
     }
-        
+
     public static void guessCycle(Level Round, Player Casino, Player Player1, Player Player2,
-                                  String hiddenWord, ArrayList<String> hiddenWordCopy, double P1Bet, double P2Bet, int round_num, Scanner scanner) {
+                                  String hiddenWord, ArrayList<String> hiddenWordCopy, double P1Bet,
+                                  double P2Bet, int round_num, Scanner scanner, ArrayList<String> typedWords) {
 
         System.out.println("Make your guess " + Player1.name + ":");
         String guess = scanner.nextLine();
@@ -37,23 +38,25 @@ public class Player {
             Player1.budget = Player1.budget + P1HWProfit;
             Player1wins = true;
             System.out.println("\n" + Player1.name + " won the Round " + round_num + " !\n" +
-                        "Hidden word was: " + hiddenWord + "\n" +
-                        Player1.name + " gained " + (int) Round.HW_profit_percentage + "% of " + Player2.name + "'s bet, which is " + (float) P1HWProfit + "$\n" +
-                        Player2.name + " has lost the whole bet.");
+                    "Hidden word was: " + hiddenWord + "\n" +
+                    Player1.name + " gained " + (int) Round.HW_profit_percentage + "% of " + Player2.name + "'s bet, which is " + (float) P1HWProfit + "$\n" +
+                    Player2.name + " has lost the whole bet.");
             if (Player1.guessNum < Round.guessChance) {
                 int extraGuesses = Round.guessChance - Player1.guessNum;
                 double extraGuessesProfit = Round.extraGuessingChanceProfit_coefficient * extraGuesses;
                 if (extraGuessesProfit >= Casino.budget/8){
                     extraGuessesProfit = Casino.budget/8;
                 }
-                Casino.budget = Casino.budget - extraGuessesProfit;
-                Player1.budget = Player1.budget + extraGuessesProfit;
-                if (extraGuesses == 1) {
-                     System.out.println(Player1.name + " also gained " + (float)extraGuessesProfit + "$" +
+                if(Casino.budget - extraGuessesProfit >= 10) {
+                    Casino.budget = Casino.budget - extraGuessesProfit;
+                    Player1.budget = Player1.budget + extraGuessesProfit;
+                    if (extraGuesses == 1) {
+                        System.out.println(Player1.name + " also gained " + (float) extraGuessesProfit + "$" +
                                 " for the remaining 1 guessing chance.");
-                } else {
-                    System.out.println(Player1.name + " also gained " + (float)extraGuessesProfit + "$" +
-                             " because of the remaining " + extraGuesses + " guessing chances.");
+                    } else {
+                        System.out.println(Player1.name + " also gained " + (float) extraGuessesProfit + "$" +
+                                " because of the remaining " + extraGuesses + " guessing chances.");
+                    }
                 }
             }
 
@@ -120,9 +123,18 @@ public class Player {
                     }
                 }
 
-                if (!occurrenceError) {
+                boolean unusedWord = true;
+                if(typedWords.contains(guess) && !occurrenceError) {
+                    System.out.println("You have already typed the word '" + guess + "' previously.");
+                    unusedWord = false;
+                }
+
+
+                if (!occurrenceError && unusedWord) {
 
                     Player1.guessNum++;
+                    typedWords.add(guess);
+
 
                     String P2sValidation = "";
                     System.out.println(guess + " is not the hidden word.\nDo you accept " + guess + " as a valid word " + Player2.name + " ?\nType yes or no:");
@@ -138,9 +150,11 @@ public class Player {
                         if (wordExtra >= Casino.budget/8){
                             wordExtra = Casino.budget/8;
                         }
-                        Casino.budget = Casino.budget - wordExtra;
-                        Player1.budget = Player1.budget + wordExtra;
-                        System.out.println(Player1.name + " gained extra " + (float)wordExtra + "$");
+                        if (Casino.budget - wordExtra >= 10) {
+                            Casino.budget = Casino.budget - wordExtra;
+                            Player1.budget = Player1.budget + wordExtra;
+                            System.out.println(Player1.name + " gained extra " + (float) wordExtra + "$");
+                        }
                     } else {
                         System.out.println(Player2.name + " did not validate the word '" + guess + "'\n" + Player1.name + " did not gain any extra money for that guess.");
                     }
@@ -172,7 +186,8 @@ public class Player {
     }
 
     public static boolean finalRoundGuessCycle(Level Round, Player Casino, Player Player1, Player Player2,
-                                       String hiddenWord, ArrayList<String> hiddenWordCopy, double P1Bet, double P2Bet, Scanner scanner, boolean shouldBeSwapped, int swapNum){
+                                               String hiddenWord, ArrayList<String> hiddenWordCopy, double P1Bet,
+                                               double P2Bet, Scanner scanner, boolean shouldBeSwapped, int swapNum, ArrayList<String> typedWords){
         int round_num = 3;
         shouldBeSwapped = false;
         boolean Player1wins = false;
@@ -208,16 +223,17 @@ public class Player {
                 if (extraGuessesProfit >= Casino.budget/8){
                     extraGuessesProfit = Casino.budget/8;
                 }
-                Casino.budget = Casino.budget - extraGuessesProfit;
-                Player1.budget = Player1.budget + extraGuessesProfit;
-                if (extraGuesses == 1) {
-                    System.out.println(Player1.name + " also gained " + (float)extraGuessesProfit + "$" +
-                            " for the remaining 1 guessing chance.");
-                } else {
-                    System.out.println(Player1.name + " also gained " + (float)extraGuessesProfit + "$" +
-                            " because of the remaining " + extraGuesses + " guessing chances.");
+                if(Casino.budget - extraGuessesProfit >= 10) {
+                    Casino.budget = Casino.budget - extraGuessesProfit;
+                    Player1.budget = Player1.budget + extraGuessesProfit;
+                    if (extraGuesses == 1) {
+                        System.out.println(Player1.name + " also gained " + (float) extraGuessesProfit + "$" +
+                                " for the remaining 1 guessing chance.");
+                    } else {
+                        System.out.println(Player1.name + " also gained " + (float) extraGuessesProfit + "$" +
+                                " because of the remaining " + extraGuesses + " guessing chances.");
+                    }
                 }
-
             }
 
             Player1.guessNum = Round.guessChance;
@@ -281,9 +297,18 @@ public class Player {
                     }
                 }
 
-                if (!occurrenceError) {
+                boolean unusedWord = true;
+                if(typedWords.contains(guess) && !occurrenceError) {
+                    System.out.println("You have already typed the word '" + guess + "' previously.");
+                    unusedWord = false;
+                }
+
+
+                if (!occurrenceError && unusedWord) {
 
                     Player1.guessNum++;
+                    typedWords.add(guess);
+
 
                     String P2sValidation = "";
                     System.out.println(guess + " is not the hidden word.\nDo you accept " + guess + " as a valid word " + Player2.name + " ?\nType yes or no:");
@@ -299,9 +324,11 @@ public class Player {
                         if (wordExtra >= Casino.budget / 8) {
                             wordExtra = Casino.budget / 8;
                         }
-                        Casino.budget = Casino.budget - wordExtra;
-                        Player1.budget = Player1.budget + wordExtra;
-                        System.out.println(Player1.name + " gained extra " + (float)wordExtra + "$");
+                        if (Casino.budget - wordExtra >= 10) {
+                            Casino.budget = Casino.budget - wordExtra;
+                            Player1.budget = Player1.budget + wordExtra;
+                            System.out.println(Player1.name + " gained extra " + (float) wordExtra + "$");
+                        }
                     } else {
                         System.out.println(Player2.name + " did not validate the word '" + guess + "'\n" + Player1.name + " did not gain any extra money for that guess.");
                     }
@@ -404,12 +431,17 @@ public class Player {
         String hiddenWord = "0";
 
         if (round_num == 1 || round_num == 2) {
-            while (hiddenWord.length() < 2) {
+            while (hiddenWord.length() < 2 || hiddenWord.length() > 50) {
                 System.out.println("Type your hidden word " + Player2.name + ":");
                 hiddenWord = scanner.nextLine();
-                if (hiddenWord.length() < 2) {
+                if (hiddenWord.length() == 0) {
+                    System.out.println("Hidden word cannot be empty space.");
+                } else if (hiddenWord.length() == 1) {
                     System.out.println("Hidden word cannot be a single letter.");
+                } else {
+                    System.out.println("Hidden word cannot be longer than 50 letters.");
                 }
+
             }
         } else {
             hiddenWord = Level.genRandomWord();
@@ -483,9 +515,4 @@ public class Player {
 
 
 }
-
-
-
-
-
 

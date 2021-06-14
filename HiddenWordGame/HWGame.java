@@ -1,7 +1,6 @@
 package HiddenWordGame;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class HWGame {
@@ -30,15 +29,15 @@ public class HWGame {
             Level Round = new Level(hiddenWord, sizeTable);
             Round.setLevelHardship(hiddenWord, sizeTable);
 
-            List<String> Table = Level.returnTable(hiddenWord, sizeTable, true);
-            Round.Table = Table;
+            Round.Table = Level.returnTable(hiddenWord, sizeTable, true);
 
             ArrayList<Double> Bets = Player.acceptBets(scanner, Player1, Player2);
             double P1Bet = Bets.get(0);
             double P2Bet = Bets.get(1);
 
-            String displayedTip = "";
+
             ArrayList<String> hiddenWordCopy = Level.copyLettersAsArray(hiddenWord);
+            ArrayList<String> typedWords = new ArrayList<>();
 
             boolean R1orR2 = round_num == 1 || round_num == 2 ;
 
@@ -47,7 +46,7 @@ public class HWGame {
                 // Guess Cycles
                 while (Player1.guessNum < Round.guessChance) {
 
-                    Player.guessCycle(Round, Casino, Player1, Player2, hiddenWord, hiddenWordCopy, P1Bet, P2Bet, round_num, scanner);
+                    Player.guessCycle(Round, Casino, Player1, Player2, hiddenWord, hiddenWordCopy, P1Bet, P2Bet, round_num, scanner, typedWords);
 
                 }
 
@@ -63,9 +62,12 @@ public class HWGame {
 
                 int swapNum = 0;
                 boolean shouldBeSwapped = false;
+
                 while (Player1.guessNum < Round.guessChance) {
 
-                    shouldBeSwapped = Player.finalRoundGuessCycle(Round, Casino, Player1, Player2, hiddenWord, hiddenWordCopy, P1Bet, P2Bet, scanner, shouldBeSwapped, swapNum);
+                    shouldBeSwapped = Player.finalRoundGuessCycle(Round, Casino, Player1, Player2, hiddenWord,
+                            hiddenWordCopy, P1Bet, P2Bet, scanner, shouldBeSwapped, swapNum, typedWords);
+
                     if(shouldBeSwapped){
                         Player CopyPlayer2 = new Player(Player2.name, Player2.budget, Player2.initialBudget);
                         Player2 = Player1;

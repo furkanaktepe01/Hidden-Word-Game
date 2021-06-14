@@ -80,57 +80,6 @@ public class Level {
         this.levelHardship = hiddenWord.length() + sizeToCoefficient(preferredTableSize);
     }
 
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
-    public int getGuessChance() {
-        return guessChance;
-    }
-
-    public void setGuessChance(int guessChance) {
-        this.guessChance = guessChance;
-    }
-
-    public int getTipChance() {
-        return tipChance;
-    }
-
-    public void setTipChance(int tipChance) {
-        this.tipChance = tipChance;
-    }
-
-    public double getHW_profit_percentage() {
-        return HW_profit_percentage;
-    }
-
-    public void setHW_profit_percentage(int HW_profit_percentage) {
-        this.HW_profit_percentage = HW_profit_percentage;
-    }
-
-    public double getExtraWordsProfit_coefficient() {
-        return extraWordsProfit_coefficient;
-    }
-
-    public void setExtraWordsProfit_coefficient(int extraWordsProfit_coefficient) {
-        this.extraWordsProfit_coefficient = extraWordsProfit_coefficient;
-    }
-
-    public double getExtraGuessingChanceProfit_coefficient() {
-        return extraGuessingChanceProfit_coefficient;
-    }
-
-    public void setExtraGuessingChanceProfit_coefficient(int extraGuessingChanceProfit_coefficient) {
-        this.extraGuessingChanceProfit_coefficient = extraGuessingChanceProfit_coefficient;
-    }
-
-    public int getLevelHardship() {
-        return levelHardship;
-    }
 
     public static ArrayList<String> pickRandomLetters(int num) {
         String[] alphabet = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
