@@ -31,7 +31,7 @@ public class HWGame {
 
             Round.Table = Level.returnTable(hiddenWord, sizeTable, true);
 
-            ArrayList<Double> Bets = Player.acceptBets(scanner, Player1, Player2);
+            ArrayList<Double> Bets = Player.acceptBets(scanner, Player1, Player2, round_num);
             double P1Bet = Bets.get(0);
             double P2Bet = Bets.get(1);
 
