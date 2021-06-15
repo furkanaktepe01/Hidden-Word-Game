@@ -172,7 +172,7 @@ public class Level {
 
     public static void gameIntro() {
         System.out.println("\nHidden Words Game\n\n" +
-                "Welcome to the Hidden Words Game!\n" +
+                "Welcome to the Hidden Words Game!\n\n" +
                 "Aim of the game is finding the words which are created by the players and hidden in the letter tables.\n" +
                 "To start the game each of two players should type their names and budgets. Game consists of 3 rounds.\n" +
                 "In the first two rounds one player will type a word and other will try to find it, respectively.\n" +
